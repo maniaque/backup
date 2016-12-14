@@ -3,9 +3,15 @@
 # $@ => "$1" "$2" ...
 function error() { cat <<< "$@" 1>&2; }
 
+function help_message() {
+	echo "Usage: $(basename $0) DIR
+				where DIR is directory to backup"
+}
+
 #if [ -z "$1" ]; then
 if [ ! "$1" ]; then
 	error "no directory"
+	help_message
 	exit 1
 fi
 
