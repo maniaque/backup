@@ -9,8 +9,12 @@ if [ ! "$1" ]; then
 	exit 1
 fi
 
+# $1 = /etc/profile.d
+
 TARGET=/tmp/backup
-FILE=$TARGET/$2.tar
+#BNAME=`basename $1`
+BNAME=$(basename $1)
+FILE=$TARGET/$BNAME.tar
 
 mkdir $TARGET
 tar cf $FILE $1
