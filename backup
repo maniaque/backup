@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tar cf etc.tar -C /etc/profile.d .
