@@ -47,4 +47,4 @@ FILE=$TARGET/$BNAME.tgz
 # 3.
 [ -d $TARGET ] || do_or_die "mkdir -p $TARGET" "mkdir $TARGET failed"
 
-do_or_die "tar czf $FILE -P $1" "tar failed"
+do_or_die "tar czf $FILE $1" "tar failed"
