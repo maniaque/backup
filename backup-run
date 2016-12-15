@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# $0 - полный путь к выполняемому скрипту
+function error() { cat <<< "$@" 1>&2; }
 
+# $0 - полный путь к выполняемому скрипту
 DIR="$( cd "$(dirname "$0")" && pwd )"
 
 BACKUP=$DIR/backup
@@ -9,6 +10,7 @@ LOCATIONS=$DIR/backup.locations
 TARGET=/tmp/backup
 NUMBER=7
 TIMESTAMP=$(date +%Y_%m_%d_%H_%M_%S)
+EXIT_CODE=0
 
 # grep -v ^# $LOCATIONS | while IFS=";" read USER LOCATION T1 N1; do
 # done
@@ -24,5 +26,17 @@ while IFS=";" read USER LOCATION T1 N1; do
 	N2=${N1:-$NUMBER}
 	
 	#echo $BACKUP $USER $LOCATION $T2 $N2 $TIMESTAMP
-	$BACKUP $LOCATION $T2 $TIMESTAMP
+	PATTERN=$($BACKUP $LOCATION $T2 $TIMESTAMP)
+	EXIT_CODE=$?
+	if [ $EXIT_CODE -ne 0 ]; then
+		error "$LOCATION -> $T2 failed!"
+		continue
+	fi
+	
+	N3=$(( $N2+1 ))
+	
+	for f in $(ls -1 $PATTERN* | sort -r | tail -n +$N3); do
+		rm "$f"
+	done
+	
 done < $LOCATIONS

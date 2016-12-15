@@ -50,3 +50,4 @@ FILE=$TARGET/${BNAME}_${3}.tgz
 [ -d $TARGET ] || do_or_die "mkdir -p $TARGET" "mkdir $TARGET failed"
 
 do_or_die "tar czf $FILE -C $DNAME $BNAME" "tar failed"
+echo $TARGET/$BNAME
