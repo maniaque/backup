@@ -9,6 +9,10 @@ BACKUP=$DIR/backup
 LOCATIONS=$DIR/backup.locations
 TARGET=/tmp/backup
 NUMBER=7
+
+#source $DIR/backup-run.conf
+. $DIR/backup-run.conf
+
 TIMESTAMP=$(date +%Y_%m_%d_%H_%M_%S)
 EXIT_CODE=0
 
@@ -38,5 +42,6 @@ while IFS=";" read USER LOCATION T1 N1; do
 	for f in $(ls -1 $PATTERN* | sort -r | tail -n +$N3); do
 		rm "$f"
 	done
-	
 done < $LOCATIONS
+
+exit $EXIT_CODE
