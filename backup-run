@@ -9,9 +9,20 @@ BACKUP=$DIR/backup
 LOCATIONS=$DIR/backup.locations
 TARGET=/tmp/backup
 NUMBER=7
+TIMESTAMP=$(date +%Y_%m_%d_%H_%M_%S)
+
+# grep -v ^# $LOCATIONS | while IFS=";" read USER LOCATION T1 N1; do
+# done
 
 while IFS=";" read USER LOCATION T1 N1; do
-	T2=${T1:-$TARGET}
+	# игнорировать строчки, которые начинаются с #
+	[[ "$USER" =~ ^#.*$ ]] && continue
+	
+	# если user пустой или location пустой - игнорировать
+	[ -z "$USER" -o -z "$LOCATION" ] && continue
+	
+	T2=${T1:-$TARGET}/$USER
 	N2=${N1:-$NUMBER}
-	echo $BACKUP $USER $LOCATION $T2 $N2
+	
+	echo $BACKUP $USER $LOCATION $T2 $N2 $TIMESTAMP
 done < $LOCATIONS
