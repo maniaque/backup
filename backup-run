@@ -3,7 +3,6 @@
 # $0 - полный путь к выполняемому скрипту
 
 DIR="$( cd "$(dirname "$0")" && pwd )"
-echo $DIR
 
 BACKUP=$DIR/backup
 LOCATIONS=$DIR/backup.locations
@@ -24,5 +23,6 @@ while IFS=";" read USER LOCATION T1 N1; do
 	T2=${T1:-$TARGET}/$USER
 	N2=${N1:-$NUMBER}
 	
-	echo $BACKUP $USER $LOCATION $T2 $N2 $TIMESTAMP
+	#echo $BACKUP $USER $LOCATION $T2 $N2 $TIMESTAMP
+	$BACKUP $LOCATION $T2 $TIMESTAMP
 done < $LOCATIONS

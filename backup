@@ -36,7 +36,7 @@ TARGET=$2
 #BNAME=`basename $1`
 BNAME=$(basename $1)
 DNAME=$(dirname $1)
-FILE=$TARGET/$BNAME_$3.tgz
+FILE=$TARGET/${BNAME}_${3}.tgz
 
 # 1.
 #if [ ! -d $TARGET ]; then
