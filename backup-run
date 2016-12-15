@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# $0 - полный путь к выполняемому скрипту
+
+DIR="$( cd "$(dirname "$0")" && pwd )"
+echo $DIR
+
+BACKUP=$DIR/backup
+LOCATIONS=$DIR/backup.locations
+TARGET=/tmp/backup
+NUMBER=7
+
+while IFS=";" read USER LOCATION T1 N1; do
+	T2=${T1:-$TARGET}
+	N2=${N1:-$NUMBER}
+	echo $BACKUP $USER $LOCATION $T2 $N2
+done < $LOCATIONS
