@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+function error() { cat <<< "$@" 1>&2; }
+
+if [ $EUID -ne 0 ]; then
+	error "not root"
+	exit 1
+fi
+
+# спросить пользователя, он действительно хочет установить?
+while true; do
+	read -p "install backup? [y/n] " yn
+	
+	case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) exit;;
+		* ) echo "y or n";;
+	esac
+done
+
+DIR=/opt/backup
+
+# создать /opt/backup (если нет)
+[ -d $DIR ] || mkdir -p $DIR
+
+# скопировать туда backup-run и backup (перезаписать что есть, всегда!)
+cp ./backup $DIR
+cp ./backup-run $DIR
+
+chmod +x $DIR/backup
+chmod +x $DIR/backup-run
+
+# если нет backup.locations, то скопировать наш (пустой с комментариями)
+[ -f $DIR/backup.locations ] || cp ./backup.locations $DIR
+# [ ! -f $DIR/backup.locations ] && cp ./backup.locations $DIR
+
+# если нет backup-run.conf, то скопировать наш (пустой)
+# [ -f $DIR/backup-run.conf ] || touch $DIR/backup-run.conf
+[ -f $DIR/backup-run.conf ] || cp ./backup-run.conf $DIR
+
+# если нет backup-run-cron, то скопировать наш
+[ -f $DIR/backup-run-cron ] || cp ./backup-run-cron $DIR
+
+# если нет ярлыка в /etc/cron.d, то создать
+[ -L /etc/cron.d/backup-run-cron ] || ln -s /opt/backup/backup-run-cron /etc/cron.d/backup-run-cron

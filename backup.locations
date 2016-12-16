@@ -1,4 +1,4 @@
-maniaque;/etc/profile.d
-maniaque;/home/maniaque;/tmp/mytest
-maniaque;/home/maniaque;;5
-maniaque;/etc/default;/tmp/etc;10
+#maniaque;/etc/profile.d
+#maniaque;/home/maniaque;/tmp/mytest
+#maniaque;/home/maniaque;;5
+#maniaque;/etc/default;/tmp/etc;10
